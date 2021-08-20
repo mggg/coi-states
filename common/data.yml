@@ -1,0 +1,13 @@
+name: Common/nationwide
+artifacts:
+  - id: counties_shapefile
+    name: 2020 Census counties shapefile (all U.S.)
+    date: 2021-02-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020/COUNTY/tl_2020_us_county.zip
+    type: shapefile_zip
+    path: tl_2020_us_county
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
