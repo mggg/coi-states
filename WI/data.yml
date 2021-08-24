@@ -152,3 +152,18 @@ artifacts:
     local: true
     type: json
     path: tl_2010_55_bg10.json
+  - id: bg_2010_total_pop
+    name: 2010 block group total populations
+    date: 2011-01-01
+    authors:
+      - United States Census Bureau
+    source: census
+    type: csv
+    path: tl_2010_55_bg10_total_pop.csv
+    query:
+      dataset: sf1
+      fields:
+        - P001001
+      geo:
+        for: block group:*
+        in: state:55 county:*

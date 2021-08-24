@@ -1,12 +1,15 @@
 """Data downloader for state-level COI submission analysis pipelines."""
 import os
 import sys
+import json
 import yaml
 import click
 import requests
 import logging
+import pandas as pd
 from io import BytesIO
 from zipfile import ZipFile
+from census import Census
 
 LOG_LEVEL = logging.INFO
 LOG_FMT = '%(asctime)s [%(levelname)s] %(message)s'
@@ -55,7 +58,49 @@ def generate_readme(artifacts, name):
     return '\n'.join(lines)
 
 
-def download_artifacts(artifacts, target_dir, force=False):
+def get_census_artifact(artifact, output_path, census_api_key):
+    """Saves a response from the Census API."""
+    client = Census(census_api_key)
+    query = artifact['query']
+    dataset = getattr(client, query['dataset'])
+    response = dataset.get(query['fields'], geo=query['geo'])
+    logging.info("Saving response from Census API for artifact '%s'",
+                 artifact['id'])
+    if artifact['type'] == 'csv':
+        pd.DataFrame(response).to_csv(output_path)
+    elif artifact['type'] == 'json':
+        with open(output_path, 'w') as f:
+            json.dump(response, f)
+    else:
+        logging.error("Format '%s' not supported for Census API data.",
+                      artifact['type'])
+
+
+def get_raw_artifact(artifact, output_path):
+    """Downloads a non-Census artifact."""
+    with requests.get(artifact['source']) as req:
+        req.raise_for_status()
+        if 'unzip_target' in artifact:
+            # Extract file from a downloaded ZIP.
+            logging.info("Extracting '%s' for artifact '%s'",
+                         artifact['unzip_target'], artifact['id'])
+            with ZipFile(BytesIO(req.content)) as zipfile:
+                with zipfile.open(artifact['unzip_target']) as sf:
+                    with open(output_path, 'wb') as tf:
+                        tf.write(sf.read())
+        elif artifact['type'] == 'shapefile_zip':
+            # Extract all files in shapefile ZIP.
+            logging.info("Unzipping shapefile for artifact '%s'",
+                         artifact['id'])
+            ZipFile(BytesIO(req.content)).extractall(output_path)
+        else:
+            # Write raw file contents.
+            with open(output_path, 'wb') as f:
+                f.write(req.content)
+
+
+def download_artifacts(artifacts, target_dir, force=False,
+                       census_api_key=None):
     """Downloads `artifacts` to `target_dir`."""
     data_dir = os.path.join(target_dir, 'data')
     for artifact in artifacts:
@@ -74,27 +119,13 @@ def download_artifacts(artifacts, target_dir, force=False):
             if not force and os.path.exists(artifact_path):
                 logging.info("Artifact '%s' exists.", artifact_id)
             else:
-                logging.info("Downloading artifact '%s' from %s", artifact_id,
-                             artifact['source'])
-                with requests.get(artifact['source']) as req:
-                    req.raise_for_status()
-                    if 'unzip_target' in artifact:
-                        # Extract file from a downloaded ZIP.
-                        logging.info("Extracting '%s' for artifact '%s'",
-                                     artifact['unzip_target'], artifact_id)
-                        with ZipFile(BytesIO(req.content)) as zipfile:
-                            with zipfile.open(artifact['unzip_target']) as sf:
-                                with open(artifact_path, 'wb') as tf:
-                                    tf.write(sf.read())
-                    elif artifact['type'] == 'shapefile_zip':
-                        # Extract all files in shapefile ZIP.
-                        logging.info("Unzipping shapefile for artifact '%s'",
-                                     artifact_id)
-                        ZipFile(BytesIO(req.content)).extractall(artifact_path)
-                    else:
-                        # Write raw file contents.
-                        with open(artifact_path, 'wb') as f:
-                            f.write(req.content)
+                logging.info("Downloading artifact '%s' from Census",
+                             artifact_id)
+                if artifact['source'].strip() == 'census':
+                    get_census_artifact(artifact, artifact_path,
+                                        census_api_key)
+                else:
+                    get_raw_artifact(artifact, artifact_path)
 
 
 def data_dirs():
@@ -116,7 +147,8 @@ def data_dirs():
               '-f',
               is_flag=True,
               help='Redownload artifacts that already exist.')
-def main(target_dirs, all_dirs, force):
+@click.option('--census-api-key')
+def main(target_dirs, all_dirs, force, census_api_key):
     if all_dirs and target_dirs:
         logging.error('Cannot specify both target directories and --all-dirs.')
         sys.exit(1)
@@ -134,7 +166,7 @@ def main(target_dirs, all_dirs, force):
         os.makedirs(os.path.join(target, 'data'), exist_ok=True)
 
         logging.info("Downloading artifacts for '%s'...", target)
-        download_artifacts(artifacts, target, force)
+        download_artifacts(artifacts, target, force, census_api_key)
 
         logging.info("Generating .gitignore for '%s'...", target)
         with open(os.path.join(target, 'data', '.gitignore'), 'w') as f:
