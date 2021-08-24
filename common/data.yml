@@ -1,6 +1,6 @@
 name: Common/nationwide
 artifacts:
-  - id: counties_shapefile
+  - id: county_shapefile
     name: 2020 Census counties shapefile (all U.S.)
     date: 2021-02-01
     authors:

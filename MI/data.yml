@@ -13,7 +13,7 @@ artifacts:
     references:
       - name: U.S. Census relationship files
         url: https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html
-  - id: block_shapefile
+  - id: block_shapefile_2020
     name: 2020 Census block shapefile
     date: 2021-08-12
     authors:
@@ -67,3 +67,63 @@ artifacts:
     path: mi_comments_20210809.csv
     local: true
     type: table
+  - id: vtd_2016_to_block_2020
+    name: Crosswalk between 2016 precincts and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-08-20
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: mi_vtds_to_2020_blocks.json
+  - id: vtd_2016_shapefile
+    name: 2016 precinct shapefile
+    date: 2020-12-21
+    authors:
+      - MGGG
+    source: https://raw.githubusercontent.com/mggg-states/MI-shapefiles/35065e4eca3658fd6c10bfabc11cc12448014674/MI.zip
+    type: shapefile_zip
+    path: MI_precincts_2016
+    references:
+      - name: mggg-states repository
+        url: https://github.com/mggg-states/MI-shapefiles
+      - name: Michigan GIS Open Data
+        url: https://gis-michigan.opendata.arcgis.com/
+  - id: bg_shapefile_2010
+    name: 2010 Census block group shapefile
+    date: 2011-01-25
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2010/BG/2010/tl_2010_26_bg10.zip
+    type: shapefile_zip
+    path: tl_2010_26_bg10
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: bg_graph_2010
+    name: 2010 block group dual graph 
+    date: 2021-08-22
+    description: Generated with GerryChain from `tl_2010_26_bg10` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: tl_2010_26_bg10.json
+  - id: submissions_20210823
+    name: Portal submissions
+    description: Portal submissions database dump (with media market submissions excluded).
+    date: 2021-08-23
+    authors:
+      - Parker Rule
+    path: wi_submissions_20210823.csv
+    local: true
+    type: table
+  - id: cluster_db_20210823
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-08-23
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    path: wi_cluster_db_20210823.pkl

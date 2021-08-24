@@ -13,7 +13,7 @@ artifacts:
     references:
       - name: U.S. Census relationship files
         url: https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html
-  - id: block_shapefile
+  - id: block_shapefile_2020
     name: 2020 Census block shapefile
     date: 2021-08-12
     authors:
@@ -57,6 +57,15 @@ artifacts:
     type: pickle
     source: https://drive.google.com/uc?id=1xwqeUh0HzvQ1sTbSvIuFZH4edimG7uxO
     path: mo_cluster_db_20210809.pkl
+  - id: cluster_db_20210823
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-08-23
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    path: mo_cluster_db_20210823.pkl
   - id: submissions_20210810
     name: Portal submissions
     description: Portal submissions database dump.
@@ -64,5 +73,34 @@ artifacts:
     authors:
       - Robbie Veglahn 
     path: MOCumulativeAug10.csv
+    local: true
+    type: table
+  - id: bg_shapefile_2010
+    name: 2010 Census block group shapefile
+    date: 2010-12-21
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2010/BG/2010/tl_2010_29_bg10.zip
+    type: shapefile_zip
+    path: tl_2010_29_bg10
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: bg_2010_graph
+    name: 2010 block group dual graph 
+    date: 2021-08-23
+    description: Generated with GerryChain from `tl_2010_29_bg10` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: tl_2010_29_bg10.json
+  - id: submissions_20210823
+    name: Portal submissions
+    description: Portal submissions database dump.
+    date: 2021-08-23
+    authors:
+      - Parker Rule
+    path: mo_submissions_20210823.csv
     local: true
     type: table

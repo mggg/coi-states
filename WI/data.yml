@@ -13,14 +13,36 @@ artifacts:
     references:
       - name: U.S. Census relationship files
         url: https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html
-  - id: block_shapefile
+  - id: block_shapefile_2020
     name: 2020 Census block shapefile
-    date: 2021-08-12
+    date: 2021-02-01
     authors:
       - United States Census Bureau
     source: https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_55_tabblock20.zip
     type: shapefile_zip
     path: tl_2020_55_tabblock20
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: bg_shapefile_2010
+    name: 2010 Census block group shapefile
+    date: 2011-01-19
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2010/BG/2010/tl_2010_55_bg10.zip
+    type: shapefile_zip
+    path: tl_2010_55_bg10
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: bg_shapefile_2020   
+    name: 2020 Census block group shapefile
+    date: 2021-02-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020/BG/tl_2020_55_bg.zip
+    type: shapefile_zip
+    path: tl_2020_55_bg
     references:
       - name: U.S. Census TIGER/Line shapefiles
         url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
@@ -57,6 +79,15 @@ artifacts:
     type: pickle
     source: https://drive.google.com/uc?id=1KaFK4rapQHLcfPod2id704iTB3W3xIrE
     path: wi_cluster_db_20210809.pkl
+  - id: cluster_db_20210820
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-08-20
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    path: wi_cluster_db_20210820.pkl
   - id: submissions_20210810
     name: Portal submissions
     description: Portal submissions database dump.
@@ -66,4 +97,58 @@ artifacts:
     path: WICumulativeAug10.csv
     local: true
     type: table
-
+  - id: submissions_20210820
+    name: Portal submissions
+    description: Portal submissions database dump (with media market submissions excluded).
+    date: 2021-08-20
+    authors:
+      - Parker Rule
+    path: wi_submissions_20210820_no_media_markets.csv
+    local: true
+    type: table
+  - id: ward_2020_shapefile
+    name: 2020 ward shapefile
+    date: 2020-12-21
+    authors:
+      - MGGG
+    source: https://raw.githubusercontent.com/mggg-states/WI-shapefiles/1e050f11f149b3cebea8d1d5b0def4647d9a6d10/WI_2020_wards.zip
+    type: shapefile_zip
+    path: WI_2020_wards
+    references:
+      - name: mggg-states repository
+        url: https://github.com/mggg-states/WI-shapefiles
+      - name: Wisconsin LTSB Open Data
+        url: https://data-ltsb.opendata.arcgis.com/
+  - id: ward_2020_graph
+    name: 2020 ward dual graph with adjusted edges
+    date: 2020-12-21
+    authors:
+      - MGGG
+    source: https://raw.githubusercontent.com/mggg-states/WI-shapefiles/1e050f11f149b3cebea8d1d5b0def4647d9a6d10/wisconsin2020_graph.json
+    type: json
+    path: wi_ward_2020_graph.json
+    references:
+      - name: mggg-states repository
+        url: https://github.com/mggg-states/WI-shapefiles
+      - name: edge tweak documentation
+        url: https://github.com/mggg-states/WI-shapefiles/tree/1e050f11f149b3cebea8d1d5b0def4647d9a6d10#wisconsin-dual-graphs
+      - name: Wisconsin LTSB Open Data
+        url: https://data-ltsb.opendata.arcgis.com/
+  - id: ward_2020_to_block_2020
+    name: Crosswalk between 2020 wards and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-08-20
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: wi_2020_wards_to_2020_blocks.json
+  - id: bg_2010_graph
+    name: 2010 block group dual graph 
+    date: 2021-08-22
+    description: Generated with GerryChain from `tl_2010_55_bg10` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: tl_2010_55_bg10.json
