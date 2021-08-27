@@ -13,7 +13,7 @@ artifacts:
     references:
       - name: U.S. Census relationship files
         url: https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html
-  - id: block_shapefile
+  - id: block_2020_shapefile
     name: 2020 Census block shapefile
     date: 2021-08-12
     authors:
@@ -66,4 +66,171 @@ artifacts:
     path: OHCumulativeAug10.csv
     local: true
     type: table
+  - id: bg_2010_shapefile
+    name: 2010 Census block group shapefile
+    date: 2010-12-21
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2010/BG/2010/tl_2010_39_bg10.zip
+    type: shapefile_zip
+    path: tl_2010_39_bg10
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: bg_2010_graph
+    name: 2010 block group dual graph 
+    date: 2021-08-24
+    description: Generated with GerryChain from `tl_2010_39_bg10` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: tl_2010_39_bg10.json
+  - id: bg_2020_shapefile
+    name: 2020 Census block group shapefile
+    date: 2021-02-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020/BG/tl_2020_39_bg.zip
+    type: shapefile_zip
+    path: tl_2020_39_bg
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: vtd_shapefile_2020
+    name: 2020 Census VTD shapefile
+    date: 2021-02-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020PL/STATE/39_OHIO/39/tl_2020_39_vtd20.zip
+    type: shapefile_zip
+    path: tl_2020_39_vtd20
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: vtd_graph_2020
+    name: 2010 Census VTD dual graph 
+    date: 2021-08-25
+    description: Generated with GerryChain from `tl_2020_39_vtd20` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: tl_2020_39_vtd20.json
+  - id: submissions_20210825
+    name: Portal submissions
+    description: Portal submissions database dump.
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    path: oh_submissions_20210825.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: submissions_20210827
+    name: Portal submissions
+    description: Portal submissions database dump.
+    date: 2021-08-27
+    authors:
+      - Parker Rule
+    path: oh_submissions_20210827.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: cluster_db_20210825
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: oh_cluster_db_20210825.pkl
+  - id: cluster_db_20210827
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-08-27
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: oh_cluster_db_20210827.pkl
+  - id: precinct_2018_shapefile
+    name: 2018 precinct shapefile
+    date: 2020-06-26
+    authors:
+      - MGGG
+    source: https://raw.githubusercontent.com/mggg-states/OH-shapefiles/e523226fb9d90c589b698b9e8720c2e4c3b22fc0/OH_precincts.zip
+    type: shapefile_zip
+    path: OH_precincts
+    references:
+      - name: mggg-states repository
+        url: https://github.com/mggg-states/OH-shapefiles
+  - id: block_2020_graph
+    name: 2020 Census block dual graph 
+    date: 2021-08-27
+    description: Generated with GerryChain from `tl_2020_39_tabblock20` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    gitignore: true
+    type: json
+    path: tl_2020_39_tabblock20.json
 
+  # Crosswalks.
+  - id: vtd_2020_to_block_2020
+    name: Crosswalk between 2020 VTDs and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-08-26
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: oh_2020_vtds_to_2020_blocks.json
+  - id: vtd_2020_to_bg_2010
+    name: Crosswalk between 2020 VTDs and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-08-26
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: oh_2020_vtds_to_2010_block_groups.json
+  - id: precinct_2018_to_block_2020
+    name: Crosswalk between 2018 precincts and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-08-26
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: oh_2018_precincts_to_2020_blocks.json
+  - id: precinct_2018_to_bg_2010
+    name: Crosswalk between 2020 precincts and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-08-26
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: oh_2018_precincts_to_2010_block_groups.json
+  - id: block_group_2020_to_block_2020
+    name: Crosswalk between 2020 block groups and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-08-26
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: oh_2020_block_groups_to_2020_blocks.json
+  - id: block_group_2020_to_bg_2010
+    name: Crosswalk between 2020 precincts and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-08-26
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: oh_2020_block_groups_to_2010_block_groups.json
