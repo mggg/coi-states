@@ -1,0 +1,108 @@
+stages:
+  - name: augment_legacy_database
+    notebooks:
+      in:
+        module: common
+        path: augment_legacy_database.ipynb
+      out:
+        path: 20210825_augment_legacy_database.ipynb
+    values:
+      output_filename: mi_cluster_db_20210809_new_format.pkl
+    artifacts:
+      - id: cluster_db_20210809
+        param: db_path
+      - id: annotations_20210815
+        param: labeled_submissions_path
+      - id: submissions_index_20210816
+        param: submissions_index_path
+  - name: generate_geo_semantic_matrices
+    notebooks:
+      in:
+        module: common
+        path: generate_geo_semantic_matrices.ipynb
+      out:
+        path: 20210825_generate_geo_semantic_matrices.ipynb
+    values:
+      num_clusters: 36
+      clusters_to_split:
+        - 22
+        - 32
+      output_prefix: mi_cluster_db_20210825
+    artifacts:
+      - id: cluster_db_20210809_new_format
+        param: db_path
+  - name: generate_geo_semantic_clusters_22
+    notebooks:
+      in:
+        module: common
+        path: GeoSemanticClusters/GeoSemanticClustersInteractive.ipynb
+      out:
+        path: 20210825_generate_geo_semantic_clusters_22.ipynb
+    values:
+      jaccard_sims_filename: mi_cluster_db_20210825_cluster_22_jaccard_sims.txt
+      hausdorff_dists_filename: mi_cluster_db_20210825_cluster_22_hausdorff_dists.txt
+      output_filename: mi_cluster_db_20210825_cluster_22_clustering.json
+      num_bins: 2
+      iters: 100000
+      beta: 2.0
+  - name: generate_geo_semantic_clusters_32
+    notebooks:
+      in:
+        module: common
+        path: GeoSemanticClusters/GeoSemanticClustersInteractive.ipynb
+      out:
+        path: 20210825_generate_geo_semantic_clusters_32.ipynb
+    values:
+      jaccard_sims_filename: mi_cluster_db_20210825_cluster_32_jaccard_sims.txt
+      hausdorff_dists_filename: mi_cluster_db_20210825_cluster_32_hausdorff_dists.txt
+      output_filename: mi_cluster_db_20210825_cluster_32_clustering.json
+      num_bins: 2
+      iters: 100000
+      beta: 2.0
+  - name: augment_clusters_with_semantics
+    notebooks:
+      in:
+        module: common
+        path: augment_clusters_with_semantics.ipynb
+      out:
+        path: 20210825_augment_clusters_with_semantics.ipynb
+    values:
+      num_clusters: 36  # before splitting
+      splits:
+        - target: 22
+          cluster_filename: mi_cluster_db_20210825_cluster_22_clustering.json
+        - target: 32
+          cluster_filename: mi_cluster_db_20210825_cluster_32_clustering.json
+      output_filename: mi_clusters_20210825_geosem_augmented.csv
+    artifacts:
+      - id: cluster_db_20210809_new_format
+        param: db_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: cluster_outputs.ipynb
+      out:
+        path: 20210825_cluster_outputs.ipynb
+    values:
+      state_fips_code: '26'
+      cluster_name_prefix: B  # Moon's versioning scheme
+      output_prefix: MI_20210825_geosem38_augmented
+      crs: EPSG:32616
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+    artifacts:
+      - id: clusters_20210825_geosem
+        param: clusters_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_shapefile_2020
+        param: block_2020_shp_path
+      - id: county_shapefile
+        param: county_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path

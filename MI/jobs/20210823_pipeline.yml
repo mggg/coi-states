@@ -1,0 +1,79 @@
+stages:
+  - name: preprocess
+    notebooks:
+      in:
+        module: common
+        path: preprocess_submissions.ipynb
+      out:
+        path: 20210823_preprocess_submissions.ipynb
+    values:
+      state_name: Michigan
+      crs: EPSG:32616  # https://spatialreference.org/ref/epsg/wgs-84-utm-zone-16n/
+      ids_url: https://o1siz7rw0c.execute-api.us-east-2.amazonaws.com/prod/submissions/districtr-ids/michigan
+      csv_url: https://o1siz7rw0c.execute-api.us-east-2.amazonaws.com/prod/submissions/csv/michigan
+      output_path: mi_submissions_20210823.csv  # in MI data directory
+      exclude_prefixes:
+        - c2386  # multi-part (difficult to split)
+        - c2376  # contains seemingly erroneous upper counties
+        - p1566  # all of Michigan (no information-theoretic value)
+        - c1855  # Detroit/"the rest of Michigan"
+        - p2671  # corrupted
+    artifacts:
+      - id: annotations_20210815
+        param: labels_path
+      - id: vtd_2020_to_block_2020
+        param: crosswalk_paths/vtds20/block_2020
+      - id: vtd_2020_to_block_group_2010
+        param: crosswalk_paths/vtds20/bg_2010
+      - id: precinct_2016_to_block_2020
+        param: crosswalk_paths/precincts/block_2020
+      - id: precinct_2016_to_block_group_2010
+        param: crosswalk_paths/precincts/bg_2010
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: bg_2010_shapefile
+        param: bg_2010_shapefile_path
+  - name: generate_clusters
+    notebooks:
+      in:
+        module: common
+        path: generate_geo_clusters.ipynb
+      out:
+        path: 20210823_generate_geo_clusters.ipynb
+    values:
+      distance_save_path: mi_dual_dist.txt  # -> outputs
+      db_file_path: mi_cluster_db_20210823.pkl  # -> data
+      index_name: VTD
+    artifacts:
+      - id: bg_2010_graph
+        param: dual_graph_path
+      - id: submissions_20210823
+        param: submissions_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: cluster_outputs.ipynb
+      out:
+        path: 20210823_cluster_outputs.ipynb
+    values:
+      num_clusters: 36
+      state_fips_code: '26'
+      cluster_name_prefix: B  # Moon's versioning scheme
+      output_prefix: MI_20210823_geo36
+      crs: 'EPSG:32616'
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+    artifacts:
+      - id: cluster_db_20210823
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_shapefile_2020
+        param: block_2020_shp_path
+      - id: county_shapefile
+        param: county_shp_path

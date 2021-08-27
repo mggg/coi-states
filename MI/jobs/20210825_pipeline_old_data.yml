@@ -1,0 +1,50 @@
+stages:
+  - name: augment_legacy_database
+    notebooks:
+      in:
+        module: common
+        path: augment_legacy_database.ipynb
+      out:
+        path: 20210825_augment_legacy_database.ipynb
+    values:
+      output_filename: mi_cluster_db_20210809_new_format.pkl
+    artifacts:
+      - id: cluster_db_20210809
+        param: db_path
+      - id: annotations_20210815
+        param: labeled_submissions_path
+      - id: submissions_index_20210816
+        param: submissions_index_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: cluster_outputs.ipynb
+      out:
+        path: 20210825_cluster_outputs.ipynb
+    values:
+      num_clusters: 36
+      state_fips_code: '26'
+      cluster_name_prefix: A  # Moon's versioning scheme
+      output_prefix: MI_20210825_geo36
+      crs: EPSG:32616
+      portal_url_prefix: https://www.michigan-mapping.org/submission/
+      force_connected: false
+      output_formats:
+        - tex
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+    artifacts:
+      - id: cluster_db_20210809_new_format
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_shapefile_2020
+        param: block_2020_shp_path
+      - id: county_shapefile
+        param: county_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path

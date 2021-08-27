@@ -13,6 +13,19 @@ artifacts:
     references:
       - name: U.S. Census relationship files
         url: https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html
+  - id: county_shapefile
+    name: County shapefile (v17a)
+    date: 2021-08-25
+    authors:
+      - Michigan GIS Open Data
+    source: https://opendata.arcgis.com/api/v3/datasets/67a8ff23b5f54f15b7133b8c30981441_0/downloads/data?format=shp&spatialRefId=3078
+    type: shapefile_zip
+    path: mi_counties_v17a
+    references:
+      - name: Michigan GIS Open Data
+        url: https://gis-michigan.opendata.arcgis.com/
+      - name: Counties (v17a) on ArcGIS
+        url: https://gis-michigan.opendata.arcgis.com/datasets/67a8ff23b5f54f15b7133b8c30981441_0/about
   - id: block_shapefile_2020
     name: 2020 Census block shapefile
     date: 2021-08-12
@@ -24,6 +37,44 @@ artifacts:
     references:
       - name: U.S. Census TIGER/Line shapefiles
         url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: vtd_2020_shapefile
+    name: 2020 Census VTD shapefile
+    date: 2021-08-12
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020PL/STATE/26_MICHIGAN/26/tl_2020_26_vtd20.zip
+    type: shapefile_zip
+    path: tl_2020_26_vtd20
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: vtd_graph_2020
+    name: 2020 Census VTD dual graph 
+    date: 2021-08-24
+    description: Generated with GerryChain from `tl_2020_26_vtd20` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: tl_2020_26_vtd20.json
+  - id: vtd_2020_to_block_2020
+    name: Crosswalk between 2020 Census VTDs and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-08-24
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: mi_2020_vtds_to_2020_blocks.json
+  - id: vtd_2020_to_block_group_2010
+    name: Crosswalk between 2020 Census VTDs and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: mi_2020_vtds_to_2010_block_groups.json
   - id: submissions_index_20210816
     name: Portal submissions index
     date: 2021-08-16
@@ -57,6 +108,18 @@ artifacts:
     type: pickle
     source: https://drive.google.com/uc?id=18GDj1roCxOloQhJiKca4aHQ6eXdcLmjb
     path: mi_cluster_db_20210809.pkl
+  - id: cluster_db_20210809_new_format
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions (new format).
+    date: 2021-08-25
+    authors:
+      - Parker Edwards
+      - Parker Rule
+      - Ari Stern
+    type: pickle
+    local: true
+    gitignore: true
+    path: mi_cluster_db_20210809_new_format.pkl
   - id: submissions_20210810
     name: Portal submissions
     description: Portal submissions database dump (columns are a subset of those in `mi_all_subs_pseudo_cois.csv`).
@@ -67,7 +130,7 @@ artifacts:
     path: mi_comments_20210809.csv
     local: true
     type: table
-  - id: vtd_2016_to_block_2020
+  - id: precinct_2016_to_block_2020
     name: Crosswalk between 2016 precincts and 2020 Census blocks
     description: Generated with maup.
     date: 2021-08-20
@@ -75,8 +138,17 @@ artifacts:
       - Parker Rule
     local: true
     type: json
-    path: mi_vtds_to_2020_blocks.json
-  - id: vtd_2016_shapefile
+    path: mi_2016_precincts_to_2020_blocks.json
+  - id: precinct_2016_to_block_group_2010
+    name: Crosswalk between 2016 precincts and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: mi_2016_precincts_to_2010_block_groups.json
+  - id: precinct_2016_shapefile
     name: 2016 precinct shapefile
     date: 2020-12-21
     authors:
@@ -89,7 +161,7 @@ artifacts:
         url: https://github.com/mggg-states/MI-shapefiles
       - name: Michigan GIS Open Data
         url: https://gis-michigan.opendata.arcgis.com/
-  - id: bg_shapefile_2010
+  - id: bg_2010_shapefile
     name: 2010 Census block group shapefile
     date: 2011-01-25
     authors:
@@ -100,7 +172,7 @@ artifacts:
     references:
       - name: U.S. Census TIGER/Line shapefiles
         url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
-  - id: bg_graph_2010
+  - id: bg_2010_graph
     name: 2010 block group dual graph 
     date: 2021-08-22
     description: Generated with GerryChain from `tl_2010_26_bg10` shapefile.
@@ -115,8 +187,9 @@ artifacts:
     date: 2021-08-23
     authors:
       - Parker Rule
-    path: wi_submissions_20210823.csv
+    path: mi_submissions_20210823.csv
     local: true
+    gitignore: true
     type: table
   - id: cluster_db_20210823
     name: Cluster database
@@ -126,4 +199,44 @@ artifacts:
       - Parker Rule
     type: pickle
     local: true
-    path: wi_cluster_db_20210823.pkl
+    gitignore: true
+    path: mi_cluster_db_20210823.pkl
+  - id: submissions_20210825
+    name: Portal submissions
+    description: Portal submissions database dump (with media market submissions excluded).
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    path: mi_submissions_20210825.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: cluster_db_20210825
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: mi_cluster_db_20210825.pkl
+  - id: clusters_20210825_geosem
+    name: Cluster table
+    description: COI clusters based on Hausdorff distances and text labels.
+    date: 2021-08-25
+    authors:
+      - Parker Rule
+    type: table
+    local: true
+    path: mi_clusters_20210825_geosem_augmented.csv
+  - id: block_2020_graph
+    name: 2020 Census block dual graph 
+    date: 2021-08-25
+    description: Generated with GerryChain from `tl_2020_26_tabblock20` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    gitignore: true
+    type: json
+    path: tl_2020_26_tabblock20.json
