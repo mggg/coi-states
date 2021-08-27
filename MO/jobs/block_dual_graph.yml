@@ -1,0 +1,13 @@
+stages:
+  - name: generate_dual_graph
+    notebooks:
+      in:
+        module: common
+        path: generate_dual_graph.ipynb
+      out:
+        path: generate_dual_graph.ipynb
+    values:
+      graph_file_path: tl_2020_29_tabblock20.json
+    artifacts:
+      - id: block_2020_shapefile
+        param: shapefile_path
