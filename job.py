@@ -13,21 +13,30 @@ from os.path import join, abspath
 @click.option('--root-dir',
               default='.',
               help='Directory containing all modules.')
-@click.option('--stage', help='Stage to run in the job.')
-def main(module, job, root_dir, stage):
+@click.option('--include', help='Stage to run in the job.', multiple=True)
+@click.option('--exclude', help='Stage to skip in the job.', multiple=True)
+@click.option('--overrides', help='Parameter overrides (JSON format).')
+def main(module, job, root_dir, include, exclude, overrides):
     with open(join(root_dir, module, 'jobs', job + '.yml')) as f:
         specs = yaml.safe_load(f)
-    if stage is None:
+    if not include:
         stages = specs.get('stages', [])
     else:
-        stages = [spec for spec in specs['stages'] if spec['name'] == stage]
+        stages = [spec for spec in specs['stages'] if spec['name'] in include]
+    if exclude:
+        stages = [
+            spec for spec in specs['stages'] if spec['name'] not in exclude
+        ]
+    if overrides:
+        parsed_overrides = json.loads(overrides)
 
     for job_spec in stages:
         print('Stage:', job_spec.get('name', '<untitled>'))
         job_params = {
             'data_dir': abspath(join(root_dir, module, 'data')),
             'output_dir': abspath(join(root_dir, module, 'outputs')),
-            **job_spec.get('values', {}).copy()
+            **job_spec.get('values', {}).copy(),
+            **parsed_overrides
         }
 
         # Resolve artifacts.
@@ -47,7 +56,13 @@ def main(module, job, root_dir, stage):
                         artifact_paths[(
                             spec_module,
                             artifact['id'])] = abspath(artifact_path)
-            job_params[artifact_spec['param']] = artifact_paths[qualified_id]
+            param_path = artifact_spec['param'].split('/')
+            param_level = job_params
+            for level in param_path[:-1]:
+                if level not in param_level:
+                    param_level[level] = {}
+                param_level = param_level[level]
+            param_level[param_path[-1]] = artifact_paths[qualified_id]
 
         # Invoke notebook with Papermill.
         os.makedirs(job_params['output_dir'], exist_ok=True)

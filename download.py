@@ -19,7 +19,8 @@ DATE_FMT = '%Y-%m-%d'
 def generate_gitignore(artifacts):
     """Generates a .gitignore file that excludes nonlocal artifacts."""
     return '\n'.join('/' + artifact['path'] for artifact in artifacts
-                     if 'local' not in artifact or not artifact['local'])
+                     if 'local' not in artifact or not artifact['local']
+                     or artifact.get('gitignore', False))
 
 
 def generate_readme(artifacts, name):
@@ -67,7 +68,7 @@ def get_census_artifact(artifact, output_path, census_api_key):
     logging.info("Saving response from Census API for artifact '%s'",
                  artifact['id'])
     if artifact['type'] == 'csv':
-        pd.DataFrame(response).to_csv(output_path)
+        pd.DataFrame(response).to_csv(output_path, index=False)
     elif artifact['type'] == 'json':
         with open(output_path, 'w') as f:
             json.dump(response, f)
@@ -99,7 +100,9 @@ def get_raw_artifact(artifact, output_path):
                 f.write(req.content)
 
 
-def download_artifacts(artifacts, target_dir, force=False,
+def download_artifacts(artifacts,
+                       target_dir,
+                       force=False,
                        census_api_key=None):
     """Downloads `artifacts` to `target_dir`."""
     data_dir = os.path.join(target_dir, 'data')
