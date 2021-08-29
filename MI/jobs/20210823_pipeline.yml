@@ -53,7 +53,7 @@ stages:
     notebooks:
       in:
         module: common
-        path: cluster_outputs.ipynb
+        path: generate_cluster_outputs.ipynb
       out:
         path: 20210823_cluster_outputs.ipynb
     values:
@@ -62,6 +62,7 @@ stages:
       cluster_name_prefix: B  # Moon's versioning scheme
       output_prefix: MI_20210823_geo36
       crs: 'EPSG:32616'
+      swap_area_columns: false
       output_formats:
         - shapefile
         - csv_geo

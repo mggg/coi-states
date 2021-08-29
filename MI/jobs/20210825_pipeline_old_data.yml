@@ -19,7 +19,7 @@ stages:
     notebooks:
       in:
         module: common
-        path: cluster_outputs.ipynb
+        path: generate_cluster_outputs.ipynb
       out:
         path: 20210825_cluster_outputs.ipynb
     values:
@@ -30,6 +30,7 @@ stages:
       crs: EPSG:32616
       portal_url_prefix: https://www.michigan-mapping.org/submission/
       force_connected: false
+      swap_area_columns: true
       output_formats:
         - tex
         - shapefile
