@@ -87,6 +87,7 @@ artifacts:
       - Parker Rule
     type: pickle
     local: true
+    gitignore: true
     path: wi_cluster_db_20210820.pkl
   - id: submissions_20210810
     name: Portal submissions
@@ -105,6 +106,7 @@ artifacts:
       - Parker Rule
     path: wi_submissions_20210820_no_media_markets.csv
     local: true
+    gitignore: true
     type: table
   - id: ward_2020_shapefile
     name: 2020 ward shapefile
@@ -134,6 +136,16 @@ artifacts:
         url: https://github.com/mggg-states/WI-shapefiles/tree/1e050f11f149b3cebea8d1d5b0def4647d9a6d10#wisconsin-dual-graphs
       - name: Wisconsin LTSB Open Data
         url: https://data-ltsb.opendata.arcgis.com/
+  - id: block_2020_graph
+    name: 2020 Census block dual graph 
+    date: 2021-08-27
+    description: Generated with GerryChain from `tl_2020_55_tabblock20` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    gitignore: true
+    type: json
+    path: tl_2020_55_tabblock20.json
   - id: ward_2020_to_block_2020
     name: Crosswalk between 2020 wards and 2020 Census blocks
     description: Generated with maup.

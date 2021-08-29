@@ -1,0 +1,88 @@
+stages:
+  - name: preprocess
+    notebooks:
+      in:
+        module: common
+        path: preprocess_submissions.ipynb
+      out:
+        path: 20210822_preprocess_submissions.ipynb
+    values:
+      state_name: Wisconsin
+      crs: EPSG:32616  # https://spatialreference.org/ref/epsg/wgs-84-utm-zone-16n/
+      ids_url: https://k61e3cz2ni.execute-api.us-east-2.amazonaws.com/prod/submissions/districtr-ids/wisconsin
+      csv_url: https://k61e3cz2ni.execute-api.us-east-2.amazonaws.com/prod/submissions/csv/wisconsin
+      output_path: wi_submissions_20210820_no_media_markets.csv  # in WI data directory
+      precinct_shapefile_index: Code-2
+      exclude_prefixes:  # media market submissions (not useful)
+        - c2218
+        - c2214
+        - c2209
+        - c2208
+        - c2206
+        - c1388
+        - c1387
+        - c1310
+        - c1173
+    artifacts:
+      - id: annotations_20210815
+        param: labels_path
+      - id: ward_2020_to_block_2020
+        param: precinct_to_block_2020_crosswalk_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: ward_2020_shapefile
+        param: precinct_shapefile_path
+      - id: bg_shapefile_2010
+        param: bg_2010_shapefile_path
+  - name: generate_clusters
+    notebooks:
+      in:
+        module: common
+        path: generate_geo_clusters.ipynb
+      out:
+        path: 20210822_generate_geo_clusters.ipynb
+    values:
+      distance_save_path: wi_dual_dist.txt  # -> outputs
+      db_file_path: wi_cluster_db_20210820.pkl  # -> data
+      index_name: Code-2  # 1-indexed ward ID (assigned by MGGG)
+    artifacts:
+      - id: bg_2010_graph
+        param: dual_graph_path
+      - id: submissions_20210820
+        param: submissions_path
+  - name: generate_outputs_40
+    notebooks:
+      in:
+        module: common
+        path: generate_cluster_outputs.ipynb
+      out:
+        path: 20210823_cluster_outputs.ipynb
+    values:
+      num_clusters: 40
+      state_fips_code: '55'
+      force_connected: true
+      swap_area_columns: false
+      cluster_name_prefix: A  # Moon's versioning scheme
+      output_prefix: WI_20210823_geo40
+      portal_url_prefix: https://portal.wisconsin-mapping.org/submission/
+      crs: 'EPSG:32616'
+      swap_area_columns: false
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+        - tex
+    artifacts:
+      - id: cluster_db_20210820
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_shapefile_2020
+        param: block_2020_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path
+      - id: county_shapefile
+        module: common
+        param: county_shp_path
