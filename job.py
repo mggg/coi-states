@@ -27,8 +27,7 @@ def main(module, job, root_dir, include, exclude, overrides):
         stages = [
             spec for spec in specs['stages'] if spec['name'] not in exclude
         ]
-    if overrides:
-        parsed_overrides = json.loads(overrides)
+    parsed_overrides = json.loads(overrides) if overrides else {}
 
     for job_spec in stages:
         print('Stage:', job_spec.get('name', '<untitled>'))
