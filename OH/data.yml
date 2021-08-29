@@ -178,6 +178,18 @@ artifacts:
     gitignore: true
     type: json
     path: tl_2020_39_tabblock20.json
+  - id: cluster_db_20210809_new_format
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions (new format).
+    date: 2021-08-27
+    authors:
+      - Parker Edwards
+      - Parker Rule
+      - Ari Stern
+    type: pickle
+    local: true
+    gitignore: true
+    path: oh_cluster_db_20210809_new_format.pkl
 
   # Crosswalks.
   - id: vtd_2020_to_block_2020
