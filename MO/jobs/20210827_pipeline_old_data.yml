@@ -1,0 +1,52 @@
+stages:
+  - name: augment_legacy_database
+    notebooks:
+      in:
+        module: common
+        path: augment_legacy_database.ipynb
+      out:
+        path: 20210827_augment_legacy_database.ipynb
+    values:
+      output_filename: mo_cluster_db_20210809_new_format.pkl
+    artifacts:
+      - id: cluster_db_20210809
+        param: db_path
+      - id: annotations_20210815
+        param: labeled_submissions_path
+      - id: submissions_index_20210819
+        param: submissions_index_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: generate_cluster_outputs.ipynb
+      out:
+        path: 20210827_cluster_outputs.ipynb
+    values:
+      num_clusters: 35
+      state_fips_code: '29'
+      cluster_name_prefix: A  # Moon's versioning scheme
+      output_prefix: MO_20210827_geo25_old_data
+      crs: EPSG:32615
+      force_connected: true
+      swap_area_columns: true
+      portal_url_prefix: https://portal.missouri-mapping.org/submission/
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+        - tex
+    artifacts:
+      - id: cluster_db_20210809_new_format
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_2020_shapefile
+        param: block_2020_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path
+      - id: county_shapefile
+        module: common
+        param: county_shp_path

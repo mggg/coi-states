@@ -13,7 +13,7 @@ artifacts:
     references:
       - name: U.S. Census relationship files
         url: https://www.census.gov/geographies/reference-files/time-series/geo/relationship-files.html
-  - id: block_shapefile_2020
+  - id: block_2020_shapefile
     name: 2020 Census block shapefile
     date: 2021-08-12
     authors:
@@ -65,6 +65,7 @@ artifacts:
       - Parker Rule
     type: pickle
     local: true
+    gitignore: true
     path: mo_cluster_db_20210823.pkl
   - id: submissions_20210810
     name: Portal submissions
@@ -95,6 +96,16 @@ artifacts:
     local: true
     type: json
     path: tl_2010_29_bg10.json
+  - id: block_2020_graph
+    name: 2020 Census block dual graph 
+    date: 2021-08-27
+    description: Generated with GerryChain from `tl_2020_29_tabblock20` shapefile.
+    authors:
+      - Parker Rule
+    local: true
+    gitignore: true
+    type: json
+    path: tl_2020_29_tabblock20.json
   - id: submissions_20210823
     name: Portal submissions
     description: Portal submissions database dump.
@@ -103,4 +114,17 @@ artifacts:
       - Parker Rule
     path: mo_submissions_20210823.csv
     local: true
+    gitignore: true
     type: table
+  - id: cluster_db_20210809_new_format
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions (new format).
+    date: 2021-08-27
+    authors:
+      - Parker Edwards
+      - Parker Rule
+      - Ari Stern
+    type: pickle
+    local: true
+    gitignore: true
+    path: mo_cluster_db_20210809_new_format.pkl
