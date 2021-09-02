@@ -191,6 +191,16 @@ artifacts:
     local: true
     gitignore: true
     type: table
+  - id: submissions_20210901
+    name: Portal submissions
+    description: Portal submissions database dump.
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    path: mi_submissions_20210901.csv
+    local: true
+    gitignore: true
+    type: table
   - id: cluster_db_20210823
     name: Cluster database
     description: Hausdorff distance-based clusters generated on COI submissions.
@@ -201,6 +211,16 @@ artifacts:
     local: true
     gitignore: true
     path: mi_cluster_db_20210823.pkl
+  - id: cluster_db_20210901
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: mi_cluster_db_20210901.pkl
   - id: submissions_20210825
     name: Portal submissions
     description: Portal submissions database dump (with media market submissions excluded).
@@ -240,3 +260,20 @@ artifacts:
     gitignore: true
     type: json
     path: tl_2020_26_tabblock20.json
+  - id: ten_regions_shapefile
+    name: Redistricting regions shapefile
+    date: 2021-08-27
+    authors:
+      - Kimball Brace
+      - Election Data Services
+    type: shapefile_zip
+    local: true
+    path: Doug10DistPlan
+  - id: ten_regions_clipped_shapefile
+    name: Redistricting regions shapefile (clipped to Michigan county boundaries)
+    date: 2021-08-31
+    authors:
+      - Parker
+    type: shapefile_zip
+    local: true
+    path: mi_ten_regions_clipped

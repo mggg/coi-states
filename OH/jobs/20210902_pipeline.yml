@@ -1,0 +1,89 @@
+stages:
+  - name: preprocess
+    notebooks:
+      in:
+        module: common
+        path: preprocess_submissions.ipynb
+      out:
+        path: 20210902_preprocess_submissions.ipynb
+    values:
+      state_name: Ohio
+      crs: EPSG:32617  # https://spatialreference.org/ref/epsg/wgs-84-utm-zone-17n/
+      ids_url: https://k61e3cz2ni.execute-api.us-east-2.amazonaws.com/prod/submissions/districtr-ids/ohio
+      csv_url: https://k61e3cz2ni.execute-api.us-east-2.amazonaws.com/prod/submissions/csv/ohio
+      output_path: oh_submissions_20210902.csv  # in OH data directory
+      vtd_shapefile_index: GEOID20
+      exclude_prefixes: []
+      exclude_units:
+        - blocks
+    artifacts:
+      - id: annotations_20210815
+        param: labels_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: vtd_shapefile_2020
+        param: vtd_shapefile_path
+      - id: bg_2010_shapefile
+        param: bg_2010_shapefile_path
+      - id: vtd_2020_to_bg_2010
+        param: crosswalk_paths/vtds20/bg_2010
+      - id: vtd_2020_to_block_2020
+        param: crosswalk_paths/vtds20/block_2020
+      - id: block_group_2020_to_bg_2010
+        param: crosswalk_paths/blockgroups20/bg_2010
+      - id: block_group_2020_to_block_2020
+        param: crosswalk_paths/blockgroups20/block_2020
+      - id: precinct_2018_to_bg_2010
+        param: crosswalk_paths/precincts/bg_2010
+      - id: precinct_2018_to_block_2020
+        param: crosswalk_paths/precincts/block_2020
+  - name: generate_clusters
+    notebooks:
+      in:
+        module: common
+        path: generate_geo_clusters.ipynb
+      out:
+        path: 20210902_generate_geo_clusters.ipynb
+    values:
+      distance_save_path: oh_dual_dist.txt  # -> outputs
+      db_file_path: oh_cluster_db_20210902.pkl  # -> data
+    artifacts:
+      - id: bg_2010_graph
+        param: dual_graph_path
+      - id: submissions_20210902
+        param: submissions_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: generate_cluster_outputs.ipynb
+      out:
+        path: 20210902_cluster_outputs.ipynb
+    values:
+      num_clusters: 25
+      state_fips_code: '39'
+      cluster_name_prefix: B  # Moon's versioning scheme
+      output_prefix: OH_20210902_geo25
+      crs: 'EPSG:32617'
+      force_connected: false
+      swap_area_columns: false
+      portal_url_prefix: https://portal.ohio-mapping.org/submission/
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+        - tex
+    artifacts:
+      - id: cluster_db_20210902
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_2020_shapefile
+        param: block_2020_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path
+      - id: county_shapefile
+        module: common
+        param: base_shp_path

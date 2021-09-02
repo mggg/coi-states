@@ -46,6 +46,28 @@ artifacts:
     references:
       - name: U.S. Census TIGER/Line shapefiles
         url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: vtd_2020_shapefile
+    name: 2020 Census VTD shapefile
+    date: 2021-08-12
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020PL/STATE/55_WISCONSIN/55/tl_2020_55_vtd20.zip
+    type: shapefile_zip
+    path: tl_2020_55_vtd20
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: county_shapefile   
+    name: County shapefile
+    date: 2017-06-26
+    authors:
+      - Wisconsin Department of Natural Resources
+    source: https://opendata.arcgis.com/api/v3/datasets/8b8a0896378449538cf1138a969afbc6_3/downloads/data?format=shp&spatialRefId=3071
+    type: shapefile_zip
+    path: County_Boundaries_24K
+    references:
+      - name: WI DNR Open Data
+        url: https://data-wi-dnr.opendata.arcgis.com/
   - id: submissions_index_20210819
     name: Portal submissions index
     date: 2021-08-19
@@ -89,6 +111,16 @@ artifacts:
     local: true
     gitignore: true
     path: wi_cluster_db_20210820.pkl
+  - id: cluster_db_20210901
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: wi_cluster_db_20210901.pkl
   - id: submissions_20210810
     name: Portal submissions
     description: Portal submissions database dump.
@@ -105,6 +137,16 @@ artifacts:
     authors:
       - Parker Rule
     path: wi_submissions_20210820_no_media_markets.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: submissions_20210901
+    name: Portal submissions
+    description: Portal submissions database dump (with media market submissions excluded).
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    path: wi_submissions_20210901_no_media_markets.csv
     local: true
     gitignore: true
     type: table
@@ -155,6 +197,33 @@ artifacts:
     local: true
     type: json
     path: wi_2020_wards_to_2020_blocks.json
+  - id: ward_2020_to_block_group_2010
+    name: Crosswalk between 2020 wards and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: wi_2020_wards_to_2010_block_groups.json
+  - id: vtd_2020_to_block_2020
+    name: Crosswalk between 2020 Census VTDs and 2020 Census blocks
+    description: Generated with maup.
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: wi_2020_vtds_to_2020_blocks.json
+  - id: vtd_2020_to_block_group_2010
+    name: Crosswalk between 2020 Census VTDs and 2010 Census block groups
+    description: Generated with maup.
+    date: 2021-09-01
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: wi_2020_vtds_to_2010_block_groups.json
   - id: bg_2010_graph
     name: 2010 block group dual graph 
     date: 2021-08-22

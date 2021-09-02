@@ -45,7 +45,7 @@ stages:
         param: block_2010_to_block_2020_crosswalk_path
       - id: block_shapefile_2020
         param: block_2020_shp_path
-      - id: county_shapefile
-        param: county_shp_path
+      - id: ten_regions_clipped_shapefile
+        param: base_shp_path
       - id: block_2020_graph
         param: block_dual_graph_path
