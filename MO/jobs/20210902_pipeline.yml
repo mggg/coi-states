@@ -51,8 +51,12 @@ stages:
       force_connected: false
       swap_area_columns: false
       output_formats:
-        - png
+        - shapefile
+        - csv_geo
         - csv_comments
+        - html
+        - png
+        - tex
     artifacts:
       - id: cluster_db_20210902
         param: db_path
