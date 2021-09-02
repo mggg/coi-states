@@ -45,7 +45,7 @@ stages:
     values:
       num_clusters: 35
       state_fips_code: '29'
-      cluster_name_prefix: A  # Moon's versioning scheme
+      cluster_name_prefix: B  # Moon's versioning scheme
       output_prefix: MO_20210902_geo
       crs: EPSG:32615
       force_connected: false
