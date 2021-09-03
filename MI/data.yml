@@ -201,6 +201,16 @@ artifacts:
     local: true
     gitignore: true
     type: table
+  - id: submissions_20210903
+    name: Portal submissions
+    description: Portal submissions database dump (up to 2021-09-01; new labels attached).
+    date: 2021-09-03
+    authors:
+      - Parker Rule
+    path: mi_submissions_20210903.csv
+    local: true
+    gitignore: true
+    type: table
   - id: cluster_db_20210823
     name: Cluster database
     description: Hausdorff distance-based clusters generated on COI submissions.
@@ -221,6 +231,16 @@ artifacts:
     local: true
     gitignore: true
     path: mi_cluster_db_20210901.pkl
+  - id: cluster_db_20210903
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-09-03
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: mi_cluster_db_20210903.pkl
   - id: submissions_20210825
     name: Portal submissions
     description: Portal submissions database dump (with media market submissions excluded).

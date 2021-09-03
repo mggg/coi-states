@@ -1,0 +1,63 @@
+stages:
+  - name: augment_submissions_with_labels
+    notebooks:
+      in:
+        module: common
+        path: augment_submissions_with_labels.ipynb
+      out:
+        path: 20210903_augment_submissions_with_labels.ipynb
+    artifacts:
+      - id: annotations_B18
+        param: annotations/B18/path
+      - id: annotations_B33
+        param: annotations/B33/path
+      - id: submissions_20210901
+        param: submissions_in_path
+    values:
+      submissions_out_filename: mi_submissions_20210903.csv
+  - name: generate_clusters
+    notebooks:
+      in:
+        module: common
+        path: generate_geo_clusters.ipynb
+      out:
+        path: 20210903_generate_geo_clusters.ipynb
+    values:
+      distance_save_path: mi_dual_dist.txt  # -> outputs
+      db_file_path: mi_cluster_db_20210903.pkl  # -> data
+      index_name: VTD
+    artifacts:
+      - id: bg_2010_graph
+        param: dual_graph_path
+      - id: submissions_20210903
+        param: submissions_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: generate_cluster_outputs.ipynb
+      out:
+        path: 20210903_cluster_outputs.ipynb
+    values:
+      num_clusters: 36
+      state_fips_code: '26'
+      cluster_name_prefix: B  # Moon's versioning scheme
+      output_prefix: MI_20210903_geo36
+      crs: 'EPSG:32616'
+      swap_area_columns: false
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+        - tex
+    artifacts:
+      - id: cluster_db_20210903
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_shapefile_2020
+        param: block_2020_shp_path
+      - id: county_shapefile
+        param: base_shp_path
