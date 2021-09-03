@@ -69,3 +69,5 @@ stages:
       - id: county_shapefile
         module: common
         param: base_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path
