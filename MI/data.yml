@@ -277,3 +277,21 @@ artifacts:
     type: shapefile_zip
     local: true
     path: mi_ten_regions_clipped
+  - id: annotations_B18
+    name: Labels for cluster B18 (see `submissions_20210901`).
+    date: 2021-09-03
+    authors:
+      - Parker Rule
+      - Liz Kopecky
+    type: json
+    local: true
+    path: MI_annotations_B18_20210903.jsonl
+  - id: annotations_B33
+    name: Labels for cluster B33 (see `submissions_20210901`).
+    date: 2021-09-03
+    authors:
+      - Parker Rule
+      - Liz Kopecky
+    type: json
+    local: true
+    path: MI_annotations_B33_20210903.jsonl
