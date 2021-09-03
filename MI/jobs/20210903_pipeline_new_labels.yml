@@ -45,12 +45,15 @@ stages:
       output_prefix: MI_20210903_geo36
       crs: 'EPSG:32616'
       swap_area_columns: false
+      force_connected: true
+      cluster_cores: true
       output_formats:
         - shapefile
         - csv_geo
         - csv_comments
         - html
         - png
+        - png_summary
         - tex
     artifacts:
       - id: cluster_db_20210903

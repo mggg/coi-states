@@ -65,15 +65,17 @@ stages:
       cluster_name_prefix: B  # Moon's versioning scheme
       output_prefix: OH_20210902_geo25
       crs: 'EPSG:32617'
-      force_connected: false
       swap_area_columns: false
       portal_url_prefix: https://portal.ohio-mapping.org/submission/
+      force_connected: true
+      cluster_cores: true
       output_formats:
         - shapefile
         - csv_geo
         - csv_comments
         - html
         - png
+        - png_summary
         - tex
     artifacts:
       - id: cluster_db_20210902
