@@ -4,7 +4,9 @@ import json
 import yaml
 import click
 import papermill as pm
+from functools import partial
 from os.path import join, abspath
+from multiprocessing import Process
 
 
 @click.command()
@@ -16,7 +18,8 @@ from os.path import join, abspath
 @click.option('--include', help='Stage to run in the job.', multiple=True)
 @click.option('--exclude', help='Stage to skip in the job.', multiple=True)
 @click.option('--overrides', help='Parameter overrides (JSON format).')
-def main(module, job, root_dir, include, exclude, overrides):
+@click.option('--parallel', help='Run all jobs in parallel.', is_flag=True)
+def main(module, job, root_dir, include, exclude, overrides, parallel):
     with open(join(root_dir, module, 'jobs', job + '.yml')) as f:
         specs = yaml.safe_load(f)
     if not include:
@@ -72,9 +75,16 @@ def main(module, job, root_dir, include, exclude, overrides):
         output_notebook_path = join(
             root_dir, job_spec['notebooks']['out'].get('module', module),
             'outputs', job_spec['notebooks']['out']['path'])
-        pm.execute_notebook(input_notebook_path,
-                            output_notebook_path,
-                            parameters=job_params)
+        if parallel:
+            notebook_exec = partial(pm.execute_notebook,
+                                    input_notebook_path,
+                                    output_notebook_path,
+                                    parameters=job_params)
+            Process(target=notebook_exec).start()
+        else:
+            pm.execute_notebook(input_notebook_path,
+                                output_notebook_path,
+                                parameters=job_params)
 
 
 if __name__ == '__main__':
