@@ -1,0 +1,131 @@
+name: Utah
+artifacts:
+  - id: block_shapefile_2020
+    name: 2020 Census block shapefile
+    date: 2021-02-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020/TABBLOCK20/tl_2020_49_tabblock20.zip
+    type: shapefile_zip
+    path: tl_2020_49_tabblock20
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: coi_shapefile
+    name: Hand-drawn COI submissions
+    date: 2021-10-18
+    authors:
+      - Utah citizens
+    local: true
+    gitignore: true
+    type: shapefile_zip
+    path: UT-COI-raw
+  - id: block_2020_total_pop
+    name: 2020 block total populations
+    date: 2021-08-01
+    authors:
+      - United States Census Bureau
+    source: census
+    type: json
+    path: tl_2020_49_block_total_pop.json
+    query:
+      dataset: pl
+      fields:
+        - P1_001N
+      geo:
+        for: block:*
+        in: state:49 county:*
+  - id: vtd_2020_shapefile
+    name: 2020 Census VTD shapefile
+    date: 2021-08-12
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/tiger/TIGER2020PL/STATE/49_UTAH/49/tl_2020_49_vtd20.zip
+    type: shapefile_zip
+    path: tl_2020_49_vtd20
+    references:
+      - name: U.S. Census TIGER/Line shapefiles
+        url: https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html
+  - id: baf_2020
+    name: 2020 Census block assignment files (BAFs)
+    date: 2021-01-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST49_UT.zip
+    type: shapefile_zip  # not actually a shapefile, lol
+    path: BlockAssign_ST49_UT
+  - id: vtd_2020_graph
+    name: 2020 Census VTD dual graph 
+    date: 2021-10-20
+    description: Generated with GerryChain.
+    authors:
+      - MGGG
+    source: https://raw.githubusercontent.com/mggg/plan-evaluation-reporting/8e0a01b35cc061f839ca7b9e5be52a56723c9043/dual_graphs/ut_vtds20.json
+    type: json
+    path: ut_vtds20.json
+  - id: county_shapefile
+    name: County shapefile
+    date: 2021-10-25
+    authors:
+      - Utah SGID
+    source: https://opendata.arcgis.com/api/v3/datasets/90431cac2f9f49f4bcf1505419583753_0/downloads/data?format=shp&spatialRefId=3857
+    type: shapefile_zip
+    path: Utah_County_Boundaries
+    references:
+      - name: Utah County Boundaries (ArcGIS)
+        url: https://opendata.gis.utah.gov/datasets/utah-county-boundaries/
+  - id: state_house_recom_100k
+    name: State House ReCom chain
+    description: A 100,000-step VTD-level county-aware ReCom chain (5% population tolerance) on State House districts.
+    date: 2021-10-02
+    authors:
+      - MGGG
+    type: chain
+    local: true
+    path: utah_state_house_0.05_bal_100000_steps_county_aware.chain
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: state_senate_recom_100k
+    name: State Senate ReCom chain
+    description: A 100,000-step VTD-level county-aware ReCom chain (2% population tolerance) on State Senate districts.
+    date: 2021-10-02
+    authors:
+      - MGGG
+    type: chain
+    local: true
+    path: utah_state_senate_0.02_bal_100000_steps_county_aware.chain
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: congress_recom_100k
+    name: Congress ReCom chain
+    description: A 100,000-step VTD-level county-aware ReCom chain (1% population tolerance) on U.S. Congress districts.
+    date: 2021-10-02
+    authors:
+      - MGGG
+    type: chain
+    local: true
+    path: utah_congress_0.01_bal_100000_steps_county_aware.chain
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: proposed_plans
+    name: Proposed plans
+    description: A database of commission-proposed draft plans.
+    date: 2021-10-28
+    authors:
+      - MGGG
+    type: directory
+    local: true
+    path: proposed_plans
+  - id: final_plans
+    name: Final commission plans
+    description: A database of commission-proposed final plans.
+    date: 2021-10-30
+    authors:
+      - MGGG
+    type: directory
+    local: true
+    path: final_plans
+
