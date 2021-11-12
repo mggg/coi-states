@@ -1,0 +1,200 @@
+stages:
+  - name: congress
+    notebooks:
+      in:
+        path: generate_freehand_coi_stats.ipynb
+      out:
+        path: 20211028_generate_freehand_coi_stats_congress.ipynb
+    values:
+      proj: EPSG:32612
+      state_fips_code: "49"
+      output_prefix: ut_congress_coi_preservation
+      figure_title: Utah COI preservation (Congress)
+      selected_plans:
+        - id: congress/Purple
+          label: Purple
+          color: tab:purple
+        - id: congress/Orange
+          label: Orange
+          color: tab:orange
+        - id: congress/SH2
+          label: SH2
+          color: tab:green
+        - id: congress/UT-Leg-Congress
+          label: Leg-Congress
+          color: tab:blue
+    artifacts:
+      - id: coi_shapefile
+        param: coi_shapefile_path  
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: final_plans
+        param: plans_path
+      - id: vtd_2020_graph
+        param: vtd_graph_path
+      - id: baf_2020
+        param: baf_path
+      - id: congress_recom_100k
+        param: chain_path
+      - id: block_2020_total_pop
+        param: block_pops_path
+  - name: state_senate
+    notebooks:
+      in:
+        path: generate_freehand_coi_stats.ipynb
+      out:
+        path: 20211028_generate_freehand_coi_stats_state_senate.ipynb
+    values:
+      proj: EPSG:32612
+      state_fips_code: "49"
+      output_prefix: ut_state_senate_coi_preservation
+      figure_title: Utah COI preservation (State Senate)
+      selected_plans:
+        - id: state_senate/Purple
+          label: Purple
+          color: tab:purple
+        - id: state_senate/Orange
+          label: Orange
+          color: tab:orange
+        - id: state_senate/Green
+          label: Green
+          color: tab:green
+        - id: state_senate/UT-Leg-Senate
+          label: Leg-Senate
+          color: tab:blue
+    artifacts:
+      - id: coi_shapefile
+        param: coi_shapefile_path  
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: final_plans
+        param: plans_path
+      - id: vtd_2020_graph
+        param: vtd_graph_path
+      - id: baf_2020
+        param: baf_path
+      - id: state_senate_recom_100k
+        param: chain_path
+      - id: block_2020_total_pop
+        param: block_pops_path
+  - name: state_house
+    notebooks:
+      in:
+        path: generate_freehand_coi_stats.ipynb
+      out:
+        path: 20211028_generate_freehand_coi_stats_state_house.ipynb
+    values:
+      proj: EPSG:32612
+      state_fips_code: "49"
+      output_prefix: ut_state_house_coi_preservation
+      figure_title: Utah COI preservation (State House)
+      selected_plans:
+        - id: state_house/Purple
+          label: Purple
+          color: tab:purple
+        - id: state_house/Orange
+          label: Orange
+          color: tab:orange
+        - id: state_house/Green
+          label: Green
+          color: tab:green
+        - id: state_house/UT-Leg-House
+          label: Leg-House
+          color: tab:blue
+    artifacts:
+      - id: coi_shapefile
+        param: coi_shapefile_path  
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: final_plans
+        param: plans_path
+      - id: vtd_2020_graph
+        param: vtd_graph_path
+      - id: baf_2020
+        param: baf_path
+      - id: state_house_recom_100k
+        param: chain_path
+      - id: block_2020_total_pop
+        param: block_pops_path
+  - name: school_board
+    notebooks:
+      in:
+        path: generate_freehand_coi_stats.ipynb
+      out:
+        path: 20211028_generate_freehand_coi_stats_school_board.ipynb
+    values:
+      proj: EPSG:32612
+      state_fips_code: "49"
+      output_prefix: ut_school_board_coi_preservation
+      figure_title: Utah COI preservation (School Board)
+      selected_plans:
+        - id: school_board/Purple
+          label: Purple
+          color: tab:purple
+        - id: school_board/Orange
+          label: Orange
+          color: tab:orange
+        - id: school_board/Green
+          label: Green
+          color: tab:green
+    artifacts:  # no school board ensembles currently available
+      - id: coi_shapefile
+        param: coi_shapefile_path  
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: final_plans
+        param: plans_path
+      - id: vtd_2020_graph
+        param: vtd_graph_path
+      - id: baf_2020
+        param: baf_path
+      - id: block_2020_total_pop
+        param: block_pops_path
+  - name: congress_draft
+    notebooks:
+      in:
+        path: generate_freehand_coi_stats.ipynb
+      out:
+        path: 20211028_generate_freehand_coi_stats_congress.ipynb
+    values:
+      proj: EPSG:32612
+      state_fips_code: "49"
+      output_prefix: ut_congress_coi_draft_preservation
+      figure_title: Utah COI preservation (Congress)
+      selected_plans:
+        - id: commission/cd/Purple_CD_2-3
+          label: Purple 2-3
+          color: tab:purple
+        - id: commission/cd/Orange_CD_2-3
+          label: Orange 2-3
+          color: [0.94118, 0.52157, 0.21176]  # slightly lighter orange
+        - id: commission/cd/Orange_CD_3-3
+          label: Orange 3-3
+          color: [0.89804, 0.57255, 0.26667]  # slightly darker orange
+        - id: public/cd/3
+          label: Citizen 3 (BDK)
+          color: tab:cyan
+        - id: public/cd/9
+          label: Citizen 9 (DR)
+          color: tab:brown
+        - id: public/cd/20
+          label: Citizen 20 (SH2)
+          color: tab:red
+        - id: public/cd/24
+          label: Citizen 24 (TB)
+          color: tab:olive
+    artifacts:
+      - id: coi_shapefile
+        param: coi_shapefile_path  
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: proposed_plans
+        param: plans_path
+      - id: vtd_2020_graph
+        param: vtd_graph_path
+      - id: baf_2020
+        param: baf_path
+      - id: congress_recom_100k
+        param: chain_path
+      - id: block_2020_total_pop
+        param: block_pops_path
