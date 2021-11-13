@@ -68,6 +68,17 @@ artifacts:
     references:
       - name: WI DNR Open Data
         url: https://data-wi-dnr.opendata.arcgis.com/
+  - id: cd_2011_shapefile
+    name: 2011 Congressional district shapefile
+    date: 2021-08-17
+    authors:
+      - Wisconsin Department of Natural Resources
+    source: https://opendata.arcgis.com/api/v3/datasets/b52f3c49baa840adb070e7c56604de59_0/downloads/data?format=shp&spatialRefId=3857
+    type: shapefile_zip
+    path: Wisconsin_Congressional_Districts_2011_(LTSB)
+    references:
+      - name: WI DNR Open Data
+        url: https://data-wi-dnr.opendata.arcgis.com/
   - id: submissions_index_20210819
     name: Portal submissions index
     date: 2021-08-19
@@ -121,6 +132,16 @@ artifacts:
     local: true
     gitignore: true
     path: wi_cluster_db_20210901.pkl
+  - id: cluster_db_20210911
+    name: Cluster database
+    description: Hausdorff distance-based clusters generated on COI submissions.
+    date: 2021-09-11
+    authors:
+      - Parker Rule
+    type: pickle
+    local: true
+    gitignore: true
+    path: wi_cluster_db_20210911.pkl
   - id: submissions_20210810
     name: Portal submissions
     description: Portal submissions database dump.
@@ -147,6 +168,56 @@ artifacts:
     authors:
       - Parker Rule
     path: wi_submissions_20210901_no_media_markets.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: submissions_20210911
+    name: Portal submissions
+    description: Portal submissions database dump as of 9/1 (with media market submissions excluded; labels for 4 clusters attached).
+    date: 2021-09-11
+    authors:
+      - Parker Rule
+    path: wi_submissions_20210911_no_media_markets.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: clusters_20210911
+    name: Portal submission clusters
+    description: Phase B clusters.
+    date: 2021-09-11
+    authors:
+      - Parker Rule
+    path: WI_phaseB_2021911.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: clusters_20210924
+    name: Portal submission clusters
+    description: Phase C clusters.
+    date: 2021-09-24
+    authors:
+      - Parker Rule
+    path: WI_phaseC_20210924.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: clusters_20210929
+    name: Portal submission clusters
+    description: Phase C clusters.
+    date: 2021-09-24
+    authors:
+      - Parker Rule
+    path: WI_phaseC_20210929.csv
+    local: true
+    gitignore: true
+    type: table
+  - id: clusters_20210929_fixed
+    name: Portal submission clusters
+    description: Phase C clusters with revised unit -> block mappings.
+    date: 2021-10-26
+    authors:
+      - Parker Rule
+    path: WI_phaseC_20210929_fixed.csv
     local: true
     gitignore: true
     type: table
@@ -224,6 +295,24 @@ artifacts:
     local: true
     type: json
     path: wi_2020_vtds_to_2010_block_groups.json
+  - id: ward_2020_to_vtd_2020
+    name: Crosswalk between 2020 wards and 2020 Census VTDs
+    description: Generated with maup.
+    date: 2021-09-20
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: wi_2020_wards_to_2020_vtds.json
+  - id: block_group_2010_to_vtd_2020
+    name: Crosswalk between 2010 Census block groups and 2020 Census VTDs
+    description: Generated with maup.
+    date: 2021-09-20
+    authors:
+      - Parker Rule
+    local: true
+    type: json
+    path: wi_2010_block_groups_to_2020_vtds.json
   - id: bg_2010_graph
     name: 2010 block group dual graph 
     date: 2021-08-22
@@ -233,6 +322,15 @@ artifacts:
     local: true
     type: json
     path: tl_2010_55_bg10.json
+  - id: block_exclude
+    name: Water blocks list
+    date: 2021-09-29
+    authors:
+      - Parker Rule
+    local: true
+    gitignore: true
+    type: json
+    path: wi_2020_blocks_county_block_exclude.json
   - id: bg_2010_total_pop
     name: 2010 block group total populations
     date: 2011-01-01
@@ -259,6 +357,15 @@ artifacts:
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B1_annotations.jsonl
+  - id: annotations_B7
+    name: Labels for cluster B7 (see `submissions_20210901`).
+    date: 2021-09-24
+    authors:
+      - Parker Rule
+      - Chanelle Richardson
+    type: json
+    local: true
+    path: WI_20210901_geo40_cluster_B7_annotations.jsonl
   - id: annotations_B8
     name: Labels for cluster B8 (see `submissions_20210901`).
     date: 2021-09-11
@@ -292,3 +399,106 @@ artifacts:
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B19_annotations.jsonl
+  - id: block_2020_total_pop
+    name: 2020 block total populations
+    date: 2021-08-01
+    authors:
+      - United States Census Bureau
+    source: census
+    type: json
+    path: tl_2020_55_block_total_pop.json
+    query:
+      dataset: pl
+      fields:
+        - P1_001N
+      geo:
+        for: block:*
+        in: state:55 county:*
+  - id: bg_2010_total_pop
+    name: 2010 block group total populations
+    date: 2011-01-01
+    authors:
+      - United States Census Bureau
+    source: census
+    type: json
+    path: tl_2010_55_bg_total_pop.json
+    query:
+      dataset: pl
+      year: 2020
+      fields:
+        - P1_001N
+      geo:
+        for: block group:*
+        in: state:55 county:*
+  - id: block_assignment_2020
+    name: 2020 Census block assignment files (BAFs)
+    date: 2021-01-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST55_WI.zip
+    type: shapefile_zip  # not actually a shapefile, lol
+    path: BlockAssign_ST55_WI
+  - id: state_house_recom_100k
+    name: State House ReCom chain
+    description: A 100,000-step VTD-level county-aware ReCom chain (5% population tolerance) on State House districts.
+    date: 2021-10-02
+    authors:
+      - MGGG
+    type: chain
+    local: true
+    path: wisconsin_state_house_0.05_bal_100000_steps_county_aware.chain
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: state_senate_recom_100k
+    name: State Senate ReCom chain
+    description: A 100,000-step VTD-level county-aware ReCom chain (2% population tolerance) on State Senate districts.
+    date: 2021-10-02
+    authors:
+      - MGGG
+    type: chain
+    local: true
+    path: wisconsin_state_senate_0.02_bal_100000_steps_county_aware.chain
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: congress_recom_100k
+    name: Congress ReCom chain
+    description: A 100,000-step VTD-level county-aware ReCom chain (1% population tolerance) on U.S. Congress districts.
+    date: 2021-10-02
+    authors:
+      - MGGG
+    type: chain
+    local: true
+    path: wisconsin_congress_0.01_bal_100000_steps_county_aware.chain
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: proposed_plans
+    name: Proposed plans
+    description: A database of commission-proposed plans.
+    date: 2021-10-28
+    authors:
+      - MGGG
+    type: directory
+    local: true
+    path: proposed_plans
+  - id: vtd_2020_graph
+    name: 2020 Census VTD dual graph
+    date: 2021-10-01
+    authors:
+      - MGGG
+    source: https://raw.githubusercontent.com/mggg/plan-evaluation-reporting/b9b4fc4294a2fad1bc9367c47a50af7f04f9758b/dual_graphs/wi_vtds_0_indexed.json
+    type: json
+    path: wi_vtds_0_indexed.json 
+    references:
+      - name: plan-evaluation-reporting repository
+        url: https://github.com/mggg/plan-evaluation-reporting
+  - id: baf_2020
+    name: 2020 Census block assignment files (BAFs)
+    date: 2021-01-01
+    authors:
+      - United States Census Bureau
+    source: https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST55_WI.zip
+    type: shapefile_zip  # not actually a shapefile, lol
+    path: BlockAssign_ST55_WI

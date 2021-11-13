@@ -61,8 +61,8 @@ def generate_readme(artifacts, name):
 
 def get_census_artifact(artifact, output_path, census_api_key):
     """Saves a response from the Census API."""
-    client = Census(census_api_key)
     query = artifact['query']
+    client = Census(census_api_key, year=query.get('year'))
     dataset = getattr(client, query['dataset'])
     response = dataset.get(query['fields'], geo=query['geo'])
     logging.info("Saving response from Census API for artifact '%s'",
@@ -122,7 +122,7 @@ def download_artifacts(artifacts,
             if not force and os.path.exists(artifact_path):
                 logging.info("Artifact '%s' exists.", artifact_id)
             else:
-                logging.info("Downloading artifact '%s' from Census",
+                logging.info("Downloading artifact '%s'",
                              artifact_id)
                 if artifact['source'].strip() == 'census':
                     get_census_artifact(artifact, artifact_path,
