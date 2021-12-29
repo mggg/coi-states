@@ -1,0 +1,106 @@
+stages:
+  - name: congress_202112
+    notebooks:
+      in:
+        module: common
+        path: generate_coi_stats.ipynb
+      out:
+        path: 20211028_generate_coi_stats_congress_202112.ipynb
+    values:
+      proj: EPSG:32615
+      clusters_dir: WI_20210911_phase_C_old
+      state_fips_code: "55"
+      output_prefix: wi_congress_202112_coi_preservation
+      figure_title: Wisconsin COI preservation (Congress)
+      exclude_subclusters: true
+      vtd_level_assignments: false
+      hierarchical_paths: false
+      selected_plans:
+        - id: our_cong
+          label: MathSci-CD
+          color: tab:purple
+        - id: enact2011_cong
+          label: Previous-CD
+          color: tab:orange
+        - id: vetoed_cong
+          label: SB622-CD
+          color: tab:green
+    artifacts:
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: plans_202112
+        param: plans_path
+      - id: block_2020_graph
+        param: vtd_graph_path
+      - id: block_2020_total_pop
+        param: block_pops_path
+  - name: state_senate_202112
+    notebooks:
+      in:
+        module: common
+        path: generate_coi_stats.ipynb
+      out:
+        path: 20211028_generate_coi_stats_state_senate_202112.ipynb
+    values:
+      proj: EPSG:32615
+      clusters_dir: WI_20210911_phase_C_old
+      state_fips_code: "55"
+      output_prefix: wi_state_senate_202112_coi_preservation
+      figure_title: Wisconsin COI preservation (State Senate)
+      exclude_subclusters: true
+      vtd_level_assignments: false
+      hierarchical_paths: false
+      selected_plans:
+        - id: our_sen
+          label: MathSci-SD
+          color: tab:purple
+        - id: enact2011_sen
+          label: Previous-SD
+          color: tab:orange
+        - id: vetoed_sen
+          label: SB621-SD
+          color: tab:green
+    artifacts:
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: plans_202112
+        param: plans_path
+      - id: block_2020_graph
+        param: vtd_graph_path
+      - id: block_2020_total_pop
+        param: block_pops_path
+  - name: state_assembly_202112
+    notebooks:
+      in:
+        module: common
+        path: generate_coi_stats.ipynb
+      out:
+        path: 20211028_generate_coi_stats_state_assembly_202112.ipynb
+    values:
+      proj: EPSG:32615
+      clusters_dir: WI_20210911_phase_C_old
+      state_fips_code: "55"
+      output_prefix: wi_state_assembly_202112_coi_preservation
+      figure_title: Wisconsin COI preservation (State Assembly)
+      exclude_subclusters: true
+      vtd_level_assignments: false
+      hierarchical_paths: false
+      selected_plans:
+        - id: our_assem
+          label: MathSci-AD
+          color: tab:purple
+        - id: enact2011_assem
+          label: Previous-AD
+          color: tab:orange
+        - id: vetoed_assem
+          label: SB621-AD
+          color: tab:green
+    artifacts:
+      - id: block_shapefile_2020
+        param: block_shapefile_path  
+      - id: plans_202112
+        param: plans_path
+      - id: block_2020_graph
+        param: vtd_graph_path
+      - id: block_2020_total_pop
+        param: block_pops_path

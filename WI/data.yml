@@ -331,21 +331,6 @@ artifacts:
     gitignore: true
     type: json
     path: wi_2020_blocks_county_block_exclude.json
-  - id: bg_2010_total_pop
-    name: 2010 block group total populations
-    date: 2011-01-01
-    authors:
-      - United States Census Bureau
-    source: census
-    type: csv
-    path: tl_2010_55_bg10_total_pop.csv
-    query:
-      dataset: sf1
-      fields:
-        - P001001
-      geo:
-        for: block group:*
-        in: state:55 county:*
   - id: annotations_B1
     name: Labels for cluster B1 (see `submissions_20210901`).
     date: 2021-09-11
@@ -353,7 +338,7 @@ artifacts:
       - Parker Rule
       - Liz Kopecky
       - Moon Duchin
-      - Chanelle Richardson
+      - Chanel Richardson
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B1_annotations.jsonl
@@ -362,7 +347,7 @@ artifacts:
     date: 2021-09-24
     authors:
       - Parker Rule
-      - Chanelle Richardson
+      - Chanel Richardson
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B7_annotations.jsonl
@@ -373,7 +358,7 @@ artifacts:
       - Parker Rule
       - Liz Kopecky
       - Moon Duchin
-      - Chanelle Richardson
+      - Chanel Richardson
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B8_annotations.jsonl
@@ -384,7 +369,7 @@ artifacts:
       - Parker Rule
       - Liz Kopecky
       - Moon Duchin
-      - Chanelle Richardson
+      - Chanel Richardson
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B14_annotations.jsonl
@@ -395,7 +380,7 @@ artifacts:
       - Parker Rule
       - Liz Kopecky
       - Moon Duchin
-      - Chanelle Richardson
+      - Chanel Richardson
     type: json
     local: true
     path: WI_20210901_geo40_cluster_B19_annotations.jsonl
@@ -483,6 +468,15 @@ artifacts:
     type: directory
     local: true
     path: proposed_plans
+  - id: plans_202112
+    name: Proposed plans
+    description: A database of plans from various sources.
+    date: 2021-12-12
+    authors:
+      - MGGG
+    type: directory
+    local: true
+    path: plans_202112
   - id: vtd_2020_graph
     name: 2020 Census VTD dual graph
     date: 2021-10-01
