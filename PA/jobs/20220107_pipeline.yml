@@ -1,0 +1,71 @@
+stages:
+  - name: preprocess
+    notebooks:
+      in:
+        module: common
+        path: preprocess_submissions.ipynb
+      out:
+        path: 20220107_preprocess_submissions.ipynb
+    values:
+      state_name: Pennyslvania
+      crs: epsg:6562
+      ids_url: https://k61e3cz2ni.execute-api.us-east-2.amazonaws.com/prod/submissions/districtr-ids/pennsylvania
+      csv_url: https://k61e3cz2ni.execute-api.us-east-2.amazonaws.com/prod/submissions/csv/pennsylvania
+      output_path: pa_submissions_20220107.csv  # in PA data directory
+      exclude_prefixes: []
+    artifacts:
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: bg_shapefile_2010
+        param: bg_2010_shapefile_path
+  - name: generate_clusters
+    notebooks:
+      in:
+        module: common
+        path: generate_geo_clusters.ipynb
+      out:
+        path: 20220107_generate_geo_clusters.ipynb
+    values:
+      distance_save_path: mo_dual_dist.txt  # -> outputs
+      db_file_path: PA_cluster_db_20220107.pkl  # -> data
+    artifacts:
+      - id: bg_2010_graph
+        param: dual_graph_path
+      - id: submissions_20220107
+        param: submissions_path
+  - name: generate_outputs
+    notebooks:
+      in:
+        module: common
+        path: generate_cluster_outputs.ipynb
+      out:
+        path: 20220107_cluster_outputs.ipynb
+    values:
+      num_clusters: 35
+      state_fips_code: '42'
+      cluster_name_prefix: B  # Moon's versioning scheme
+      output_prefix: MO_20220107_geo
+      crs: epsg:6562
+      swap_area_columns: false
+      force_connected: true
+      cluster_cores: true
+      output_formats:
+        - shapefile
+        - csv_geo
+        - csv_comments
+        - html
+        - png
+        - png_summary
+        - tex
+    artifacts:
+      - id: cluster_db_20220107
+        param: db_path
+      - id: block_relationship
+        param: block_2010_to_block_2020_crosswalk_path
+      - id: block_2020_shapefile
+        param: block_2020_shp_path
+      - id: county_shapefile
+        module: common
+        param: base_shp_path
+      - id: block_2020_graph
+        param: block_dual_graph_path
