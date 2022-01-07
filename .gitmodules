@@ -1,0 +1,3 @@
+[submodule "submission-analysis"]
+	path = submission-analysis
+	url = git@github.com:mggg/submission-analysis.git
