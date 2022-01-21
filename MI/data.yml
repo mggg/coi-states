@@ -306,6 +306,7 @@ artifacts:
       - Moon Duchin
     type: json
     local: true
+    gitignore: true
     path: MI_annotations_B18_20210903.jsonl
   - id: annotations_B33
     name: Labels for cluster B33 (see `submissions_20210901`).
@@ -316,6 +317,7 @@ artifacts:
       - Moon Duchin
     type: json
     local: true
+    gitignore: true
     path: MI_annotations_B33_20210903.jsonl
   - id: annotations_B14
     name: Labels for cluster B14 (see `submissions_20210901`).
@@ -327,6 +329,7 @@ artifacts:
       - Chanelle Richardson
     type: json
     local: true
+    gitignore: true
     path: MI_20210901_geo36_cluster_B14_annotations.jsonl
   - id: annotations_B16
     name: Labels for cluster B16 (see `submissions_20210901`).
@@ -337,6 +340,7 @@ artifacts:
       - Moon Duchin
       - Chanelle Richardson
     type: json
+    gitignore: true
     local: true
     path: MI_20210901_geo36_cluster_B16_annotations.jsonl
   - id: annotations_B27
@@ -348,6 +352,7 @@ artifacts:
       - Moon Duchin
       - Chanelle Richardson
     type: json
+    gitignore: true
     local: true
     path: MI_20210901_geo36_cluster_B27_annotations.jsonl
   - id: annotations_B34
@@ -359,6 +364,7 @@ artifacts:
       - Moon Duchin
       - Chanelle Richardson
     type: json
+    gitignore: true
     local: true
     path: MI_20210901_geo36_cluster_B34_annotations.jsonl
   - id: annotations_B36
@@ -370,5 +376,6 @@ artifacts:
       - Moon Duchin
       - Chanelle Richardson
     type: json
+    gitignore: true
     local: true
     path: MI_20210901_geo36_cluster_B36_annotations.jsonl

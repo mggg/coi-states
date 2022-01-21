@@ -341,6 +341,7 @@ artifacts:
       - Chanel Richardson
     type: json
     local: true
+    gitignore: true
     path: WI_20210901_geo40_cluster_B1_annotations.jsonl
   - id: annotations_B7
     name: Labels for cluster B7 (see `submissions_20210901`).
@@ -350,6 +351,7 @@ artifacts:
       - Chanel Richardson
     type: json
     local: true
+    gitignore: true
     path: WI_20210901_geo40_cluster_B7_annotations.jsonl
   - id: annotations_B8
     name: Labels for cluster B8 (see `submissions_20210901`).
@@ -361,6 +363,7 @@ artifacts:
       - Chanel Richardson
     type: json
     local: true
+    gitignore: true
     path: WI_20210901_geo40_cluster_B8_annotations.jsonl
   - id: annotations_B14
     name: Labels for cluster B14 (see `submissions_20210901`).
@@ -372,6 +375,7 @@ artifacts:
       - Chanel Richardson
     type: json
     local: true
+    gitignore: true
     path: WI_20210901_geo40_cluster_B14_annotations.jsonl
   - id: annotations_B19
     name: Labels for cluster B19 (see `submissions_20210901`).
@@ -383,6 +387,7 @@ artifacts:
       - Chanel Richardson
     type: json
     local: true
+    gitignore: true
     path: WI_20210901_geo40_cluster_B19_annotations.jsonl
   - id: block_2020_total_pop
     name: 2020 block total populations
